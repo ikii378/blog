@@ -1,7 +1,6 @@
 import puppeteer from 'puppeteer-extra';
 import puppeteerCore from 'puppeteer-core';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { EMAIL } from './email.mjs';
 import { USERNAME } from './name.mjs';
 import path from 'path';
 import clipboardy from 'clipboardy';
