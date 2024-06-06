@@ -65,35 +65,18 @@ const main = async () => {
                     const client = await page.target().createCDPSession();
                     await page.goto(baseURL);
                     console.log(await page.title());
-                    
-                    await wait(2 * 1000);
+                    await tunggu(2000);
                     await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-                    console.log("Halaman diperbarui");
-                    await wait(2 * 1000);
+                    await tunggu(2000);
 
-                    await page.click('#section-create-account\\ relative > div > div.body_button.absolute.bottom-12 > button.text-white.btn-login');
-
-                    await wait(2 * 1000);
-                    const textarea = await page.$('#section-login > div > div:nth-child(4) > label > textarea');
-
-                    if (textarea) {
-                        await textarea.type(USERNAME[i]);
-                    } else {
-                        console.error('Textarea tidak ditemukan.');
+                    try {
+                        await page.click('body > main > div.sc-9a90cf58-0.fCyUXc.sc-3cecff80-0.ioJUVA > div.sc-9a90cf58-0.kimRLc.sc-cdc477a3-0.cYeqKR > div');
+                    } catch (clickError) {
+                        catatError(`Element tidak ditemukan: ${clickError}`);
                     }
-
-                    await wait(5 * 1000);
-                    await page.click('#section-login > div > div.w-full.mt-auto > button');
-
-                    await wait(5 * 1000);
-                    await page.click('#section-home > div > div > div.swiper.swiper-initialized.swiper-horizontal.mySwiper > div.swiper-wrapper > div.swiper-slide.swiper-slide-active > div > div.item-1 > div._item-1_2 > div.ml-auto.mt-3 > button > span');
-
-                    await wait(5 * 1000);
-                   await page.waitForSelector('#section-transaction > div.block-data.h-full > div > div.overlay.relative > div > div > div > button > div > div');
-                   await page.click('#section-transaction > div.block-data.h-full > div > div.overlay.relative > div > div > div > button > div > div');
-                   
-                    await waitWithCountdown(1 * 60 * 1000);
-                    console.log("Time's up!");
+                    
+                    await waitWithCountdown(21 * 60 * 1000);
+                    console.log("Waktu habis!");
 
                 } catch (error) {
                     logError(`Error occurred: ${error}`);
