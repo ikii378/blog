@@ -38,10 +38,8 @@ $url = "https://x.metacene.io/cmd.php";
 
 // The JSON body to include in the POST request with spar value
 $body = json_encode([
-    'user' => [
-        'recharge' => [
-            'spar' => 500000 // Set the spar value to 500000
-        ]
+    'guide' => [
+        'login' => new stdClass() // Objek kosong untuk permintaan petLvUp
     ]
 ]);
 
