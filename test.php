@@ -89,8 +89,8 @@ foreach ($cookies as $item) {
         $data = json_decode($response, true);
 
         // Cek jika data recharge -> spar tersedia dan kirim ke Telegram
-        if (isset($data['user']['recharge']['spar'])) {
-            $sparValue = $data['user']['recharge']['spar'];
+        if (isset($data['data']['header']['spar'])) {
+            $sparValue = $data['data']['header']['spar'];
             $pesan = "Spar Value ($alias): " . $sparValue;
             echo $pesan;
             kirimKeTelegram($pesan);
@@ -124,6 +124,9 @@ foreach ($cookies as $item) {
             } else {
                 // Tampilkan respon dari server
                 echo 'Respon (permintaan kedua): ' . $response2;
+                // Kirim pesan ke Telegram jika permintaan kedua berhasil
+                $pesanBerhasil = "Permintaan kedua berhasil ($alias): " . $response2;
+                kirimKeTelegram($pesanBerhasil);
             }
 
             // Tutup sesi cURL untuk permintaan POST kedua
