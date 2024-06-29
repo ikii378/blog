@@ -93,6 +93,40 @@ foreach ($cookies as $item) {
             $pesan = "Spar Value ($alias): " . $sparValue;
             echo $pesan;
             kirimKeTelegram($pesan);
+
+            // Buat body untuk permintaan POST kedua
+            $bodyX = json_encode([
+                'user' => [
+                    'recharge' => [
+                        'spar' => $sparValue
+                    ]
+                ]
+            ]);
+
+            // Inisialisasi sesi cURL untuk permintaan POST kedua
+            $ch2 = curl_init($url);
+
+            // Set opsi cURL untuk permintaan POST kedua
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch2, CURLOPT_POST, true);
+            curl_setopt($ch2, CURLOPT_POSTFIELDS, $bodyX);
+
+            // Eksekusi permintaan POST kedua
+            $response2 = curl_exec($ch2);
+
+            // Periksa kesalahan cURL
+            if (curl_errno($ch2)) {
+                $error = 'Kesalahan cURL (permintaan kedua): ' . curl_error($ch2);
+                echo $error;
+                kirimKeTelegram($error);
+            } else {
+                // Tampilkan respon dari server
+                echo 'Respon (permintaan kedua): ' . $response2;
+            }
+
+            // Tutup sesi cURL untuk permintaan POST kedua
+            curl_close($ch2);
         } else {
             // Jika data recharge -> spar tidak tersedia
             $pesan = "Data recharge -> spar tidak ditemukan ($alias).";
@@ -105,6 +139,6 @@ foreach ($cookies as $item) {
     curl_close($ch);
 
     // Jeda 1 menit sebelum mengirim permintaan berikutnya
-    sleep(60);
+    sleep(2);
 }
 ?>
