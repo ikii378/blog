@@ -80,6 +80,7 @@ foreach ($cookies as $item) {
         $error = 'Kesalahan cURL: ' . curl_error($ch);
         echo $error;
         kirimKeTelegram($error);
+        continue; // Skip to the next iteration if cURL error occurs
     } else {
         // Tampilkan respon dari server
         echo 'Respon: ' . $response;
