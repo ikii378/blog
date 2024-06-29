@@ -124,10 +124,21 @@ foreach ($cookies as $item) {
             } else {
                 // Tampilkan respon dari server
                 echo 'Respon (permintaan kedua): ' . $response2;
-                // Kirim pesan ke Telegram jika permintaan kedua berhasil
-                $pesanBerhasil = "Permintaan kedua berhasil ($alias): " . $response2;
-                kirimKeTelegram($pesanBerhasil);
-            }
+                
+                // Decode JSON response
+                $data2 = json_decode($response2, true);
+
+                // Cek jika data spar tersedia dan kirim ke Telegram
+                if (isset($data2['data']['spar'])) {
+                    $sparTotal = $data2['data']['spar'];
+                    $pesanBerhasil = "Permintaan kedua berhasil ($alias). Spar Total: " . $sparTotal;
+                    kirimKeTelegram($pesanBerhasil);
+                } else {
+                    // Jika data spar tidak tersedia
+                    $pesanGagal = "Data spar tidak ditemukan pada permintaan kedua ($alias).";
+                    kirimKeTelegram($pesanGagal);
+                }
+        }
 
             // Tutup sesi cURL untuk permintaan POST kedua
             curl_close($ch2);
