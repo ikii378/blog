@@ -89,17 +89,17 @@ foreach ($cookies as $item) {
         $data = json_decode($response, true);
 
         // Cek jika data recharge -> spar tersedia dan kirim ke Telegram
-        if (isset($data['data']['header']['spar'])) {
-            $sparValue = $data['data']['header']['spar'];
-            $pesan = "Spar Value ($alias): " . $sparValue;
+        if (isset($data['data']['header']['integral'])) {
+            $sparValue = $data['data']['header']['integral'];
+            $pesan = "Exchange Honor ($alias): " . $sparValue;
             echo $pesan;
             kirimKeTelegram($pesan);
 
             // Buat body untuk permintaan POST kedua
             $bodyX = json_encode([
                 'user' => [
-                    'recharge' => [
-                        'spar' => $sparValue
+                    'exchange' => [
+                        'integral' => $sparValue
                     ]
                 ]
             ]);
@@ -129,8 +129,8 @@ foreach ($cookies as $item) {
                 $data2 = json_decode($response2, true);
 
                 // Cek jika data spar tersedia dan kirim ke Telegram
-                if (isset($data2['data']['spar'])) {
-                    $sparTotal = $data2['data']['spar'];
+                if (isset($data2['data']['integral'])) {
+                    $sparTotal = $data2['data']['integral'];
                     $pesanBerhasil = "Permintaan kedua berhasil ($alias). Spar Total: " . $sparTotal;
                     kirimKeTelegram($pesanBerhasil);
                 } else {
